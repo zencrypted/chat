@@ -1,7 +1,7 @@
 ROOM: MUC Conversations
 ========================
 
-Version 1.0 Maxim Sokhatsky
+Version 3.0 Eugene Gadibirov
 
 Endpoints
 --------

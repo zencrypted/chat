@@ -1,7 +1,7 @@
 SYNRC CHAT PROTOCOL
 ===================
 
-Version 1.0 Maxim Sokhatsky
+Version 3.0 Eugene Gadibirov
 
 Overview
 --------
