@@ -1,0 +1,51 @@
+--- Протокол Месанжера Сохацького v1 для UDP мультікаст в локальних мережах
+
+MESSAGE DEFINITIONS ::= BEGIN
+
+    IMPORTS ContentInfo FROM CryptographicMessageSyntax-2009
+            Certificate FROM PKIX1Explicit-2009 ;
+
+    P2P           ::= SEQUENCE { from OCTET STRING, to OCTET STRING }
+    MUC           ::= SEQUENCE { room OCTET STRING }
+    OS            ::= ENUMERATED { apple (1), microsoft (2), google (3), ericsson (4) }
+    AuthType      ::= ENUMERATED { reg (1), auth (2), forget (3), renew (4) }
+    MessageType   ::= ENUMERATED { sys (1), reply (2), forward (3), read (4), edited (5) }
+    MessageStatus ::= ENUMERATED { async (1), delete (2), clear (3), update (4), edit (5) }
+    MessageFeed   ::= CHOICE { p2p [0] P2P, muc [1] MUC }
+
+    File ::= SEQUENCE {
+       id OCTET STRING,
+       mime OCTET STRING,
+       payload ANY, -- ContentInfo
+       parentid OCTET STRING }
+
+    Message ::= SEQUENCE {
+       id OCTET STRING,
+       feed MessageFeed,
+       signature OCTET STRING,
+       from OCTET STRING,
+       to OCTET STRING,
+       created INTEGER,
+       files SEQUENCE OF file File,
+       type MessageType,
+       link CHOICE { empty [1] NULL, message [2] Message },
+       seenby OCTET STRING,
+       repliedby OCTET STRING,
+       mentioned SEQUENCE OF name OCTET STRING,
+       status MessageStatus DEFAULT clear }
+
+    Announcement ::= SEQUENCE {
+       session OCTET STRING,
+       type AuthType,
+       certificate ANY, -- Certificate
+       challange OCTET STRING,
+       push OCTET STRING,
+       os OS,
+       nickname OCTET STRING,
+       token OCTET STRING,
+       devkey OCTET STRING,
+       phone OCTET STRING }
+
+    Ack ::= SEQUENCE { table OCTET STRING, id OCTET STRING }
+
+END
