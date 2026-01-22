@@ -1,4 +1,5 @@
--- "https://tonpa.guru/stream/2023/2023-08-07 CHAT ASN.1.htm"
+--- Протокол Месенжера Сохацького v2 для паб-саб брокерів на TLS
+--- https://tonpa.guru/stream/2023/2023-08-07 CHAT ASN.1.htm
 
 CHAT DEFINITIONS IMPLICIT TAGS ::=
 BEGIN
@@ -7,12 +8,14 @@ BEGIN
             CertificationRequest FROM PKCS-10
             Certificate FROM PKIX1Explicit-2009 ;
 
-    IO ::= SEQUENCE { data UniversalString, code UniversalString }
-    OK ::= SEQUENCE { data UniversalString }
-    ERROR ::= SEQUENCE { code UniversalString }
-
-    P2P ::= SEQUENCE { from OCTET STRING, to OCTET STRING }
-    MUC ::= SEQUENCE { room OCTET STRING }
+    IO       ::= SEQUENCE { data UniversalString, code UniversalString }
+    OK       ::= SEQUENCE { data UniversalString }
+    ERROR    ::= SEQUENCE { code UniversalString }
+    P2P      ::= SEQUENCE { from OCTET STRING, to OCTET STRING }
+    MUC      ::= SEQUENCE { room OCTET STRING }
+    OS       ::= ENUMERATED { apple (1), microsoft (2), google (3), ericsson (4) }
+    AuthType ::= ENUMERATED { reg (1), auth (2), forget (3), renew (4) }
+    Ack      ::= SEQUENCE { table OCTET STRING, id OCTET STRING }
 
     Feature ::= SEQUENCE {
        id OCTET STRING,
@@ -165,10 +168,6 @@ BEGIN
        status INTEGER,
        roster Roster }
 
-    OS ::= ENUMERATED { apple (1), microsoft (2), google (3), ericsson (4) }
-    AuthType ::= ENUMERATED { reg (1), auth (2), forget (3), renew (4) }
-
-    Ack ::= SEQUENCE { table OCTET STRING, id OCTET STRING }
 
     FileDesc ::= SEQUENCE {
        id OCTET STRING,
